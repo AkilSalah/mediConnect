@@ -9,12 +9,28 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\MedecinController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 
+
+
+
+    Route::get('/register',[ MedecinController::class, 'allSpeciality'])->name('register');
+
+
+
+    Route::get('/patient', function () {
+        return view('patient');
+    })->name('patient'); 
+    Route::get('/doctor', function () {
+        return view('doctor');
+    })->name('doctor');   
+
+    
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
