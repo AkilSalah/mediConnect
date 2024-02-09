@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Doctors extends Model
+class Doctors extends User
 {
     use HasFactory;
     protected $fillable = [

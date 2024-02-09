@@ -13,7 +13,9 @@ class Admin extends User
         'name',
         'email',
         'password',
-        
+        'role',
     ];
+
+   
 
 }

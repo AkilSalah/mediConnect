@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use App\Http\Controllers\Auth\Patient;
-use App\Models\Doctors as ModelDoctor; 
-use App\Models\Patient as ModelsPatient;
+// use App\Http\Controllers\Auth\Patient;
+use App\Models\Doctors as ModelDoctor;
+use App\Models\Patient;
 
 class RegisteredUserController extends Controller
 {
@@ -35,22 +35,21 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:patients'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => 'required',
             'specialty' => 'required',
-
         ]);
     
         if ($request->role == 'Patient') {
-            $user = ModelsPatient::create([
+            $user = Patient::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role
+                'role' => $request->role,
             ]);
     
-            return redirect()->route('patient');
+            return redirect('/patient');
         } else {
             $request->merge(['statut' => 'libre']);
     

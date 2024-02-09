@@ -14,7 +14,6 @@ class Patient extends User
         'name',
         'email',
         'password',
-        'role' ,
-
+        'role'
     ];
 }

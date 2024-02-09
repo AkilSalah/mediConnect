@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Admin;
+use App\Models\Doctors;
+use App\Models\Patient;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,14 +26,26 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+    public function store(LoginRequest $request): RedirectResponse{
+    $credentials = $request->only('email', 'password');
+    
+    if (Auth::guard('patient')->attempt($credentials)) {
+        return redirect('/patient');
     }
+
+    if (Auth::guard('admin')->attempt($credentials)) {
+        return redirect('/admin');
+    }
+
+    if (Auth::guard('doctor')->attempt($credentials)) {
+        return redirect('/doctor');
+    }
+
+    return redirect()->back()->withInput($request->only('email'))->withErrors([
+        'email' => 'Les informations d\'identification fournies ne correspondent pas à nos enregistrements.',
+    ]);
+}
+
 
     /**
      * Destroy an authenticated session.

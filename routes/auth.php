@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -26,11 +27,19 @@ Route::middleware('guest')->group(function () {
     Route::get('/patient', function () {
         return view('patient');
     })->name('patient'); 
+
+
     Route::get('/doctor', function () {
         return view('doctor');
     })->name('doctor');   
-
     
+
+    Route::get('/admin', function () {
+        return view('admin');
+    })->name('admin');   
+
+
+
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -50,6 +59,13 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
 });
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Routes accessibles uniquement aux administrateurs
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    // Autres routes d'administration...
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)

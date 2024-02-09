@@ -35,12 +35,29 @@ return [
     |
     */
 
+
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'users'
+        ],
+        'patient' => [
+            'driver' => 'session',
+            'provider' => 'patients'
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins'
+        ],
+        'doctor' => [
+            'driver' => 'session',
+            'provider' => 'doctors'
         ],
     ],
+
+    
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -64,12 +81,28 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Doctors::class,
+        ],
+        'patients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Patient::class,
+        ],
     ],
+
+
+
+
+    // 'users' => [
+    //     'driver' => 'database',
+    //     'table' => 'users',
+    // ],
+
 
     /*
     |--------------------------------------------------------------------------
